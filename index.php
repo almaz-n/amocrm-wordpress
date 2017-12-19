@@ -1,4 +1,22 @@
 <?php
+function setLog ($request = [], $errmsg, $id_form) {
+  $file = dirname(__FILE__).'/amocrm_log.txt';
+  $date = date('Y-m-d H:i:s');
+  //формируем новую строку в логе
+  $err_str = 'Время: '.$date.'.||';
+  $err_str .= 'Отправлена с формы: '.$id_form.'.||';
+	if (count($request)) {
+		$err_str .= 'Данные введенные пользователем: '.$request['0'].'. ||';
+	} else {
+		$err_str .= 'Пользователь не ввел данных';
+	}
+
+  $err_str .= 'Сообщения об ошибки amoCRM: '.$errmsg."\n";
+
+	file_put_contents($file, $err_str, FILE_APPEND);
+}
+
+
 // define the wpcf7_mail_sent callback
 function action_wpcf7_mail_sent( $wpcf7 ) {
 
